@@ -1,0 +1,109 @@
+﻿using Poker.HandRankClassification;
+
+namespace Poker
+{
+    public class Engine
+    {
+        public Engine()
+        {
+            this.Deck = new Deck();
+            this.Flop = new List<Card>(3);
+            this.Turn = new List<Card>(1);
+            this.River = new List<Card>(1);
+            this.Players = new List<Player>();
+        }
+
+        public Deck Deck { get; }
+
+        public List<Card> Flop { get; private set; }
+
+        public List<Card> Turn { get; private set; }
+
+        public List<Card> River { get; private set; }
+
+        public List<Player> Players { get; }
+
+        public Player WinningPlayer { get; private set; }
+
+        public void Reset()
+        {
+            foreach (var player in this.Players)
+            {
+                player.Cards.Clear();
+            }
+
+            this.Deck.Reset();
+            this.Flop.Clear();
+            this.Turn.Clear();
+            this.River.Clear();
+        }
+
+        public void Run()
+        {
+            if (this.Players.Count == 0)
+            {
+                throw new InvalidOperationException("Cannot play a hand without any players");
+            }
+
+            this.Deck.Shuffle(5);
+
+            this.DealHands();
+
+            this.DealFlop();
+
+            this.DealTurn();
+
+            this.DealRiver();
+
+            this.CalculateWinner();
+        }
+
+        private void DealHands()
+        {
+            foreach (var player in this.Players)
+            {
+                player.Cards.AddRange(this.Deck.Deal(2));
+            }
+        }
+
+        private void DealFlop()
+        {
+            this.Flop = this.Deck.Deal(3);
+
+            foreach (var player in this.Players)
+            {
+                player.Cards.AddRange(this.Flop);
+            }
+        }
+
+        private void DealTurn()
+        {
+            this.Turn = this.Deck.Deal(1);
+
+            foreach (var player in this.Players)
+            {
+                player.Cards.AddRange(this.Turn);
+            }
+        }
+
+        private void DealRiver()
+        {
+            this.River = this.Deck.Deal(1);
+
+            foreach (var player in this.Players)
+            {
+                player.Cards.AddRange(this.River);
+            }
+        }
+
+        private void CalculateWinner()
+        {
+            foreach (var player in this.Players)
+            {
+                player.CalculateHandRank();
+            }
+
+            this.WinningPlayer = this.Players.OrderByDescending(x => x.HandRank.Value).First();
+        }
+    }
+}

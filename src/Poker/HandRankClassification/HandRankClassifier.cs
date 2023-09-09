@@ -4,6 +4,11 @@
     {
         public HandRank GetHandRank(List<Card> cards)
         {
+            if (cards.Count < 5)
+            {
+                throw new ArgumentException(nameof(cards));
+            }
+
             var royalFlush = new RoyalFlushRankHandler();
             var straightFlush = new StraightFlushRankHandler();
             var fourOfAKind = new FourOfAKindRankHandler();

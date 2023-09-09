@@ -4,15 +4,21 @@
     {
         public static void Main(string[] args)
         {
-            var deck = new Deck();
-            deck.Shuffle(5);
+            var engine = new Engine();
 
-            foreach (var card in deck.Cards)
+            for (int i = 0; i < 5; i++)
             {
-                Console.WriteLine(card.ToString());
+                engine.Players.Add(new Player($"Player Number: {i + 1}"));
             }
 
-            Console.WriteLine($"Total Cards: {deck.Cards.Count}");
+            engine.Run();
+
+            Console.WriteLine($"Player: {engine.WinningPlayer.Name} won with a {engine.WinningPlayer.HandRank} of {GetCardNames(engine.WinningPlayer.Cards)}");
+        }
+
+        public static string GetCardNames(List<Card> cards)
+        {
+            return string.Join(", ", cards.OrderBy(x => x.Rank).ThenBy(x => x.Suit).Select(x => x.ToString()));
         }
     }
 }
