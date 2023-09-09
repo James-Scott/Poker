@@ -2,18 +2,19 @@
 {
     public struct Card
     {
-        private readonly CardSuit suit;
-        private readonly CardRank rank;
-
         public Card(CardSuit suit, CardRank rank)
         {
-            this.suit = suit;
-            this.rank = rank;
+            this.Suit = suit;
+            this.Rank = rank;
         }
+
+        public readonly CardSuit Suit { get; }
+
+        public readonly CardRank Rank { get; }
 
         public override string ToString()
         {
-            return $"{this.rank} of {this.suit}s";
+            return $"{this.Rank} of {this.Suit}s";
         }
     }
 }

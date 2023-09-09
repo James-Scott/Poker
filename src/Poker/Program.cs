@@ -12,7 +12,7 @@
                 Console.WriteLine(card.ToString());
             }
 
-            Console.WriteLine(@"Total Cards: {deck.Cards.Count}");
+            Console.WriteLine($"Total Cards: {deck.Cards.Count}");
         }
     }
 }
