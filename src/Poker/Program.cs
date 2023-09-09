@@ -1,10 +1,18 @@
 ﻿namespace Poker
 {
-    internal class Program
+    public static class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            var deck = new Deck();
+            deck.Shuffle(5);
+
+            foreach (var card in deck.Cards)
+            {
+                Console.WriteLine(card.ToString());
+            }
+
+            Console.WriteLine(@"Total Cards: {deck.Cards.Count}");
         }
     }
 }
