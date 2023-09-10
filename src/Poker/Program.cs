@@ -8,12 +8,17 @@
 
             for (int i = 0; i < 5; i++)
             {
-                engine.Players.Add(new Player($"Player Number: {i + 1}"));
+                engine.Players.Add(new Player($"Player Number: {i + 1}", 100));
+            }
+
+            foreach (var player in engine.Players)
+            {
+                engine.Bet(player, 50);
             }
 
             engine.Run();
 
-            Console.WriteLine($"Player: {engine.WinningPlayer.Name} won with a {engine.WinningPlayer.HandRank} of {GetCardNames(engine.WinningPlayer.Cards)}");
+            Console.WriteLine($"Player: {engine.WinningPlayer.Name} won {engine.Pot} chips with a {engine.WinningPlayer.HandRank} of {GetCardNames(engine.WinningPlayer.Cards)}");
         }
 
         public static string GetCardNames(List<Card> cards)

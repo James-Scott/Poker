@@ -1,6 +1,4 @@
-﻿using Poker.HandRankClassification;
-
-namespace Poker
+﻿namespace Poker
 {
     public class Engine
     {
@@ -25,6 +23,8 @@ namespace Poker
 
         public Player WinningPlayer { get; private set; }
 
+        public int Pot { get; private set; }
+
         public void Reset()
         {
             foreach (var player in this.Players)
@@ -36,6 +36,7 @@ namespace Poker
             this.Flop.Clear();
             this.Turn.Clear();
             this.River.Clear();
+            this.Pot = 0;
         }
 
         public void Run()
@@ -56,6 +57,13 @@ namespace Poker
             this.DealRiver();
 
             this.CalculateWinner();
+        }
+
+        public void Bet(Player player, int amount)
+        {
+            player.BetChips(amount);
+
+            this.Pot += amount;
         }
 
         private void DealHands()
@@ -104,6 +112,8 @@ namespace Poker
             }
 
             this.WinningPlayer = this.Players.OrderByDescending(x => x.HandRank.Value).First();
+
+            this.WinningPlayer.AddChips(this.Pot);
         }
     }
 }
