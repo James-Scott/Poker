@@ -20,6 +20,11 @@ namespace Poker
         {
             var classifier = new HandRankClassifier();
 
+            if (this.Cards.Count < 5)
+            {
+                throw new ArgumentException(nameof(this.Cards));
+            }
+
             this.HandRank = classifier.GetHandRank(this.Cards);
         }
     }

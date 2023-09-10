@@ -4,7 +4,7 @@
     {
         public HandRank GetHandRank(List<Card> cards)
         {
-            if (cards.Count < 5)
+            if (cards.Count == 0)
             {
                 throw new ArgumentException(nameof(cards));
             }
