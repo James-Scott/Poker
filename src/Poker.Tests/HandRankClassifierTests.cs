@@ -1,4 +1,4 @@
-namespace Poker.Tests
+﻿namespace Poker.Tests
 {
     using Poker.HandRankClassification;
 
@@ -78,11 +78,13 @@ namespace Poker.Tests
         {
             var cards = new List<Card>()
             {
-                new Card(CardSuit.Club, CardRank.Three),
+                new Card(CardSuit.Club, CardRank.Two),
                 new Card(CardSuit.Club, CardRank.Four),
-                new Card(CardSuit.Diamond, CardRank.Five),
+                new Card(CardSuit.Club, CardRank.Five),
                 new Card(CardSuit.Diamond, CardRank.Six),
-                new Card(CardSuit.Heart, CardRank.Seven)
+                new Card(CardSuit.Diamond, CardRank.Seven),
+                new Card(CardSuit.Heart, CardRank.Eight),
+                new Card(CardSuit.Spade, CardRank.Ace)
             };
 
             var classifier = new HandRankClassifier();

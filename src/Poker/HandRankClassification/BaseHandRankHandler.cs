@@ -1,4 +1,4 @@
-namespace Poker.HandRankClassification
+﻿namespace Poker.HandRankClassification
 {
     public class BaseHandRankHandler : IHandRankHandler
     {
@@ -25,18 +25,94 @@ namespace Poker.HandRankClassification
 
         protected static bool IsStraight(List<Card> cards)
         {
-            var ordered = cards.OrderBy(x => x.Rank).Select(x => x.Rank).ToList();
+            var ordered = cards.OrderBy(x => x.Rank).ToList();
 
-            var ranks = Enum.GetValues<CardRank>().ToList();
+            var straight = new List<Card>() { cards.First() };
 
-            var matchingRanks = ranks.GetRange(ranks.IndexOf(ordered.First()), 5);
+            var expectedNextRank = (int)cards.First().Rank + 1;
 
-            return Enumerable.SequenceEqual(ordered, matchingRanks);
+            for (int i = 1; i < cards.Count; i++)
+            {
+                var current = ordered[i];
+
+                if ((int)current.Rank == expectedNextRank)
+                {
+                    straight.Add(current);
+                    expectedNextRank++;
+
+                    if (straight.Count == 5)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    straight.Clear();
+                    straight.Add(current);
+                    expectedNextRank = (int)current.Rank + 1;
+                }
+            }
+
+            return false;
+        }
+
+        protected static List<Card> GetStraight(List<Card> cards)
+        {
+            if (!IsStraight(cards))
+            {
+                throw new ArgumentException(nameof(cards));
+            }
+
+            var ordered = cards.OrderBy(x => x.Rank).ToList();
+
+            var straight = new List<Card>() { cards.First() };
+
+            var expectedNextRank = (int)cards.First().Rank + 1;
+
+            for (int i = 1; i < cards.Count; i++)
+            {
+                var current = ordered[i];
+
+                if ((int)current.Rank == expectedNextRank)
+                {
+                    straight.Add(current);
+                    expectedNextRank++;
+
+                    if (straight.Count == 5)
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    straight.Clear();
+                    straight.Add(current);
+                    expectedNextRank = (int)current.Rank + 1;
+                }
+            }
+
+            return straight;
         }
 
         protected static bool IsFlush(List<Card> cards)
         {
             return cards.GroupBy(x => x.Suit).Any(x => x.Count() == 5);
+        }
+
+        protected static List<Card> GetFlush(List<Card> cards)
+        {
+            if (!IsFlush(cards))
+            {
+                throw new ArgumentException(nameof(cards));
+            }
+
+            var ordered = cards.OrderBy(x => x.Rank).ToList();
+
+            var flush = ordered.GroupBy(x => x.Suit).Where(x => x.Count() == 5);
+
+            ordered.RemoveAll(x => x.Suit != flush.Select(x => x.Key).First());
+
+            return ordered;
         }
 
         protected static bool IsStraightFlush(List<Card> cards)
