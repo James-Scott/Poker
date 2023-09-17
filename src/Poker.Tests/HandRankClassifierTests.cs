@@ -95,6 +95,26 @@
         }
 
         [TestMethod]
+        public void GetHandRank_Straight_AceIsLow()
+        {
+            var cards = new List<Card>()
+            {
+                new Card(CardSuit.Spade, CardRank.Ace),
+                new Card(CardSuit.Club, CardRank.Two),
+                new Card(CardSuit.Club, CardRank.Three),
+                new Card(CardSuit.Club, CardRank.Four),
+                new Card(CardSuit.Diamond, CardRank.Five),
+                new Card(CardSuit.Heart, CardRank.Eight)
+            };
+
+            var classifier = new HandRankClassifier();
+
+            var rank = classifier.GetHandRank(cards);
+
+            Assert.AreEqual(HandRank.Straight, rank);
+        }
+
+        [TestMethod]
         public void GetHandRank_Flush_HappyPath()
         {
             var cards = new List<Card>()

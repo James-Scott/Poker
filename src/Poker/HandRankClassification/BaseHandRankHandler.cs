@@ -25,6 +25,11 @@
 
         protected static bool IsStraight(List<Card> cards)
         {
+            if (IsAceLowStraight(cards))
+            {
+                return true;
+            }
+
             var ordered = cards.OrderBy(x => x.Rank).ToList();
 
             var straight = new List<Card>() { cards.First() };
@@ -61,6 +66,11 @@
             if (!IsStraight(cards))
             {
                 throw new ArgumentException(nameof(cards));
+            }
+
+            if (IsAceLowStraight(cards))
+            {
+                return GetAceLowStraight(cards);
             }
 
             var ordered = cards.OrderBy(x => x.Rank).ToList();
@@ -118,6 +128,37 @@
         protected static bool IsStraightFlush(List<Card> cards)
         {
             return IsStraight(cards) && IsFlush(cards);
+        }
+
+        private static bool IsAceLowStraight(List<Card> cards)
+        {
+            var ordered = cards.OrderBy(x => x.Rank).ToList();
+
+            return ordered.Where(x => x.Rank == CardRank.Ace
+                || x.Rank == CardRank.Two
+                || x.Rank == CardRank.Three
+                || x.Rank == CardRank.Four
+                || x.Rank == CardRank.Five).Count() == 5;
+        }
+
+        private static List<Card> GetAceLowStraight(List<Card> cards)
+        {
+            var ordered = cards.OrderBy(x => x.Rank).ToList();
+
+            var straight = ordered.Where(x => x.Rank == CardRank.Ace
+                || x.Rank == CardRank.Two
+                || x.Rank == CardRank.Three
+                || x.Rank == CardRank.Four
+                || x.Rank == CardRank.Five).ToList();
+
+            return new List<Card>()
+            {
+                straight[4],
+                straight[0],
+                straight[1],
+                straight[2],
+                straight[3]
+            };
         }
     }
 }
