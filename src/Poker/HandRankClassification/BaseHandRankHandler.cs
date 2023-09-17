@@ -1,4 +1,4 @@
-﻿namespace Poker.HandRankClassification
+namespace Poker.HandRankClassification
 {
     public class BaseHandRankHandler : IHandRankHandler
     {
@@ -36,7 +36,7 @@
 
         protected static bool IsFlush(List<Card> cards)
         {
-            return cards.GroupBy(x => x.Suit).Count() == 1;
+            return cards.GroupBy(x => x.Suit).Any(x => x.Count() == 5);
         }
 
         protected static bool IsStraightFlush(List<Card> cards)
