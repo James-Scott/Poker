@@ -30,13 +30,13 @@
                 return true;
             }
 
-            var ordered = cards.OrderBy(x => x.Rank).ToList();
+            var ordered = cards.OrderBy(x => x.Rank).ThenBy(x => x.Suit).GroupBy(x => x.Rank).Select(x => x.First()).ToList();
 
-            var straight = new List<Card>() { cards.First() };
+            var straight = new List<Card>() { ordered.First() };
 
-            var expectedNextRank = (int)cards.First().Rank + 1;
+            var expectedNextRank = (int)ordered.First().Rank + 1;
 
-            for (int i = 1; i < cards.Count; i++)
+            for (int i = 1; i < ordered.Count; i++)
             {
                 var current = ordered[i];
 
@@ -73,13 +73,13 @@
                 return GetAceLowStraight(cards);
             }
 
-            var ordered = cards.OrderBy(x => x.Rank).ToList();
+            var ordered = cards.OrderBy(x => x.Rank).ThenBy(x => x.Suit).GroupBy(x => x.Rank).Select(x => x.First()).ToList();
 
-            var straight = new List<Card>() { cards.First() };
+            var straight = new List<Card>() { ordered.First() };
 
-            var expectedNextRank = (int)cards.First().Rank + 1;
+            var expectedNextRank = (int)ordered.First().Rank + 1;
 
-            for (int i = 1; i < cards.Count; i++)
+            for (int i = 1; i < ordered.Count; i++)
             {
                 var current = ordered[i];
 
@@ -132,7 +132,7 @@
 
         private static bool IsAceLowStraight(List<Card> cards)
         {
-            var ordered = cards.OrderBy(x => x.Rank).ToList();
+            var ordered = cards.OrderBy(x => x.Rank).ThenBy(x => x.Suit).GroupBy(x => x.Rank).Select(x => x.First()).ToList();
 
             return ordered.Where(x => x.Rank == CardRank.Ace
                 || x.Rank == CardRank.Two
@@ -143,7 +143,7 @@
 
         private static List<Card> GetAceLowStraight(List<Card> cards)
         {
-            var ordered = cards.OrderBy(x => x.Rank).ToList();
+            var ordered = cards.OrderBy(x => x.Rank).ThenBy(x => x.Suit).GroupBy(x => x.Rank).Select(x => x.First()).ToList();
 
             var straight = ordered.Where(x => x.Rank == CardRank.Ace
                 || x.Rank == CardRank.Two

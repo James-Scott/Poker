@@ -115,6 +115,26 @@
         }
 
         [TestMethod]
+        public void GetHandRank_Straight_DuplicatedValue()
+        {
+            var cards = new List<Card>()
+            {
+                new Card(CardSuit.Spade, CardRank.Three),
+                new Card(CardSuit.Club, CardRank.Four),
+                new Card(CardSuit.Club, CardRank.Five),
+                new Card(CardSuit.Diamond, CardRank.Five),
+                new Card(CardSuit.Diamond, CardRank.Six),
+                new Card(CardSuit.Heart, CardRank.Seven)
+            };
+
+            var classifier = new HandRankClassifier();
+
+            var rank = classifier.GetHandRank(cards);
+
+            Assert.AreEqual(HandRank.Straight, rank);
+        }
+
+        [TestMethod]
         public void GetHandRank_Flush_HappyPath()
         {
             var cards = new List<Card>()
