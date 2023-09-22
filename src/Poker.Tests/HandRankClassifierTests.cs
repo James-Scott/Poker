@@ -200,7 +200,8 @@
                 new Card(CardSuit.Spade, CardRank.Jack),
                 new Card(CardSuit.Spade, CardRank.Queen),
                 new Card(CardSuit.Spade, CardRank.King),
-                new Card(CardSuit.Spade, CardRank.Ace)
+                new Card(CardSuit.Spade, CardRank.Ace),
+                new Card(CardSuit.Club, CardRank.Ace)
             };
 
             var classifier = new HandRankClassifier();

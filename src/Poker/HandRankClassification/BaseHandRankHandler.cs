@@ -130,6 +130,66 @@
             return IsStraight(cards) && IsFlush(cards);
         }
 
+        protected static bool IsRoyalFlush(List<Card> cards)
+        {
+            if (!IsStraightFlush(cards))
+            {
+                return false;
+            }
+
+            var ranks = new List<CardRank>()
+            {
+                CardRank.Ten,
+                CardRank.Jack,
+                CardRank.Queen,
+                CardRank.King,
+                CardRank.Ace
+            };
+
+            foreach (var suit in Enum.GetValues<CardSuit>())
+            {
+                var suitRanks = cards.Where(x => x.Suit == suit).Select(x => x.Rank);
+
+                if (ranks.All(x => suitRanks.Contains(x)))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        protected static List<Card> GetRoyalFlush(List<Card> cards)
+        {
+            if (!IsRoyalFlush(cards))
+            {
+                throw new ArgumentException(nameof(cards));
+            }
+
+            var ranks = new List<CardRank>()
+            {
+                CardRank.Ten,
+                CardRank.Jack,
+                CardRank.Queen,
+                CardRank.King,
+                CardRank.Ace
+            };
+
+            CardSuit royalFlushSuit = CardSuit.Club;
+
+            foreach (var suit in Enum.GetValues<CardSuit>())
+            {
+                var suitRanks = cards.Where(x => x.Suit == suit).Select(x => x.Rank);
+
+                if (ranks.All(x => suitRanks.Contains(x)))
+                {
+                    royalFlushSuit = suit;
+                }
+            }
+
+            return cards.Where(x => x.Suit == royalFlushSuit && ranks.Contains(x.Rank)).OrderBy(x => x.Rank).ToList();
+        }
+
         private static bool IsAceLowStraight(List<Card> cards)
         {
             var ordered = cards.OrderBy(x => x.Rank).ThenBy(x => x.Suit).GroupBy(x => x.Rank).Select(x => x.First()).ToList();

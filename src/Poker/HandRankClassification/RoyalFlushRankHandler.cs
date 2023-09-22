@@ -4,7 +4,7 @@
     {
         public override HandRank Handle(List<Card> cards)
         {
-            if (IsStraightFlush(cards) && cards.Any(x => x.Rank == CardRank.Ace))
+            if (IsRoyalFlush(cards))
             {
                 return HandRank.RoyalFlush;
             }
