@@ -18,10 +18,18 @@
 
             engine.Run();
 
-            Console.WriteLine($"Player: {engine.WinningPlayer.Name} won {engine.Pot} chips with a {engine.WinningPlayer.HandRank} of {GetCardNames(engine.WinningPlayer.Cards)}");
+            PrettyPrintOutput(engine);
         }
 
-        public static string GetCardNames(List<Card> cards)
+        private static void PrettyPrintOutput(Engine engine)
+        {
+            Console.WriteLine(@$"Player: {engine.WinningPlayer.Name} won {engine.Pot} chips with a {engine.WinningPlayer.HandRankResult.HandRank} of\n
+                {GetCardNames(engine.WinningPlayer.Cards)}\n
+                and a kicker {engine.WinningPlayer.HandRankResult.Kicker}
+            ");
+        }
+
+        private static string GetCardNames(List<Card> cards)
         {
             return string.Join(", ", cards.OrderBy(x => x.Rank).ThenBy(x => x.Suit).Select(x => x.ToString()));
         }

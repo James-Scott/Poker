@@ -11,7 +11,7 @@
             return handler;
         }
 
-        public virtual HandRank Handle(List<Card> cards)
+        public virtual HandResult Handle(List<Card> cards)
         {
             if (this.next != null)
             {
@@ -19,7 +19,7 @@
             }
             else
             {
-                return HandRank.HighCard;
+                throw new InvalidOperationException("Cannot determine a valid hand rank for this set of cards");
             }
         }
 

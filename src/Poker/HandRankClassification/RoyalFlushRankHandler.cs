@@ -1,15 +1,21 @@
 ﻿namespace Poker.HandRankClassification
 {
-    public class RoyalFlushRankHandler : BaseHandRankHandler
+    public class RoyalFlushRankHandler : BaseHandRankHandler, IKicker
     {
-        public override HandRank Handle(List<Card> cards)
+        public override HandResult Handle(List<Card> cards)
         {
             if (IsRoyalFlush(cards))
             {
-                return HandRank.RoyalFlush;
+                return new HandResult(HandRank.RoyalFlush, this.GetKicker(cards));
             }
 
             return base.Handle(cards);
+        }
+
+        public Card GetKicker(List<Card> cards)
+        {
+            var royalFlush = GetRoyalFlush(cards);
+            return royalFlush.OrderByDescending(x => x.Rank).First();
         }
     }
 }

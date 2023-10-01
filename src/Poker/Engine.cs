@@ -111,7 +111,8 @@
                 player.CalculateHandRank();
             }
 
-            this.WinningPlayer = this.Players.OrderByDescending(x => x.HandRank.Value).First();
+            // TODO: What if multiple players have the same hand and kicker? They should split the pot evenly
+            this.WinningPlayer = this.Players.OrderByDescending(x => x.HandRankResult.HandRank).ThenByDescending(x => x.HandRankResult.Kicker).First();
 
             this.WinningPlayer.AddChips(this.Pot);
         }

@@ -1,7 +1,7 @@
-﻿using Poker.HandRankClassification;
-
-namespace Poker
+﻿namespace Poker
 {
+    using Poker.HandRankClassification;
+
     public class Player
     {
         public Player(string name, int chips)
@@ -17,37 +17,18 @@ namespace Poker
 
         public List<Card> Cards { get; }
 
-        public HandRank? HandRank { get; private set; }
-
-        public Card Kicker { get; private set; }
+        public HandResult HandRankResult { get; private set; }
 
         public void CalculateHandRank()
         {
-            var classifier = new HandRankClassifier();
+            var classifier = new HandResultClassifier();
 
             if (this.Cards.Count < 5)
             {
                 throw new ArgumentException(nameof(this.Cards));
             }
 
-            this.HandRank = classifier.GetHandRank(this.Cards);
-        }
-
-        public void CalculateKicker()
-        {
-            var classifier = new KickerClassifier();
-
-            if (this.Cards.Count < 5)
-            {
-                throw new ArgumentException(nameof(this.Cards));
-            }
-
-            if (this.HandRank.HasValue == false)
-            {
-                throw new InvalidOperationException("Must have a hand rank before kicker");
-            }
-
-            this.Kicker = classifier.GetKicker(this.HandRank.Value, this.Cards);
+            this.HandRankResult = classifier.GetHandRankResult(this.Cards);
         }
 
         public void BetChips(int amount)

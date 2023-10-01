@@ -4,6 +4,6 @@
     {
         IHandRankHandler SetNext(IHandRankHandler handler);
 
-        HandRank Handle(List<Card> cards);
+        HandResult Handle(List<Card> cards);
     }
 }

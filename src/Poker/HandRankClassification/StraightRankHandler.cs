@@ -1,15 +1,21 @@
 ﻿namespace Poker.HandRankClassification
 {
-    public class StraightRankHandler : BaseHandRankHandler
+    public class StraightRankHandler : BaseHandRankHandler, IKicker
     {
-        public override HandRank Handle(List<Card> cards)
+        public override HandResult Handle(List<Card> cards)
         {
             if (IsStraight(cards))
             {
-                return HandRank.Straight;
+                return new HandResult(HandRank.Straight, this.GetKicker(cards));
             }
 
             return base.Handle(cards);
+        }
+
+        public Card GetKicker(List<Card> cards)
+        {
+            var straight = GetStraight(cards);
+            return straight.Last();
         }
     }
 }

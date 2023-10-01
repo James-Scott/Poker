@@ -16,7 +16,8 @@
 
             player.CalculateHandRank();
 
-            Assert.AreEqual(HandRank.Pair, player.HandRank);
+            Assert.AreEqual(HandRank.Pair, player.HandRankResult.HandRank);
+            Assert.AreEqual(CardRank.Five, player.HandRankResult.Kicker.Rank);
         }
 
         [TestMethod]

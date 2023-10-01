@@ -2,9 +2,8 @@
 {
     using Poker.HandRankClassification;
 
-
     [TestClass]
-    public class HandRankClassifierTests
+    public class HandRankResultClassifierTests
     {
         [TestMethod]
         public void GetHandRank_HighCard_HappyPath()
@@ -15,11 +14,12 @@
                 new Card(CardSuit.Diamond, CardRank.Three)
             };
 
-            var classifier = new HandRankClassifier();
+            var classifier = new HandResultClassifier();
 
-            var rank = classifier.GetHandRank(cards);
+            var result = classifier.GetHandRankResult(cards);
 
-            Assert.AreEqual(HandRank.HighCard, rank);
+            Assert.AreEqual(HandRank.HighCard, result.HandRank);
+            Assert.AreEqual(CardRank.Three, result.Kicker.Rank);
         }
 
         [TestMethod]
@@ -28,14 +28,16 @@
             var cards = new List<Card>()
             {
                 new Card(CardSuit.Club, CardRank.Five),
-                new Card(CardSuit.Diamond, CardRank.Five)
+                new Card(CardSuit.Diamond, CardRank.Five),
+                new Card(CardSuit.Heart, CardRank.Seven)
             };
 
-            var classifier = new HandRankClassifier();
+            var classifier = new HandResultClassifier();
 
-            var rank = classifier.GetHandRank(cards);
+            var result = classifier.GetHandRankResult(cards);
 
-            Assert.AreEqual(HandRank.Pair, rank);
+            Assert.AreEqual(HandRank.Pair, result.HandRank);
+            Assert.AreEqual(CardRank.Seven, result.Kicker.Rank);
         }
 
         [TestMethod]
@@ -47,13 +49,15 @@
                 new Card(CardSuit.Diamond, CardRank.Five),
                 new Card(CardSuit.Club, CardRank.King),
                 new Card(CardSuit.Heart, CardRank.King),
+                new Card(CardSuit.Heart, CardRank.Eight)
             };
 
-            var classifier = new HandRankClassifier();
+            var classifier = new HandResultClassifier();
 
-            var rank = classifier.GetHandRank(cards);
+            var result = classifier.GetHandRankResult(cards);
 
-            Assert.AreEqual(HandRank.TwoPair, rank);
+            Assert.AreEqual(HandRank.TwoPair, result.HandRank);
+            Assert.AreEqual(CardRank.Eight, result.Kicker.Rank);
         }
 
         [TestMethod]
@@ -63,14 +67,16 @@
             {
                 new Card(CardSuit.Club, CardRank.Five),
                 new Card(CardSuit.Diamond, CardRank.Five),
-                new Card(CardSuit.Heart, CardRank.Five)
+                new Card(CardSuit.Heart, CardRank.Five),
+                new Card(CardSuit.Heart, CardRank.Nine)
             };
 
-            var classifier = new HandRankClassifier();
+            var classifier = new HandResultClassifier();
 
-            var rank = classifier.GetHandRank(cards);
+            var result = classifier.GetHandRankResult(cards);
 
-            Assert.AreEqual(HandRank.ThreeOfAKind, rank);
+            Assert.AreEqual(HandRank.ThreeOfAKind, result.HandRank);
+            Assert.AreEqual(CardRank.Nine, result.Kicker.Rank);
         }
 
         [TestMethod]
@@ -87,11 +93,12 @@
                 new Card(CardSuit.Spade, CardRank.Ace)
             };
 
-            var classifier = new HandRankClassifier();
+            var classifier = new HandResultClassifier();
 
-            var rank = classifier.GetHandRank(cards);
+            var result = classifier.GetHandRankResult(cards);
 
-            Assert.AreEqual(HandRank.Straight, rank);
+            Assert.AreEqual(HandRank.Straight, result.HandRank);
+            Assert.AreEqual(CardRank.Eight, result.Kicker.Rank);
         }
 
         [TestMethod]
@@ -107,11 +114,12 @@
                 new Card(CardSuit.Heart, CardRank.Eight)
             };
 
-            var classifier = new HandRankClassifier();
+            var classifier = new HandResultClassifier();
 
-            var rank = classifier.GetHandRank(cards);
+            var result = classifier.GetHandRankResult(cards);
 
-            Assert.AreEqual(HandRank.Straight, rank);
+            Assert.AreEqual(HandRank.Straight, result.HandRank);
+            Assert.AreEqual(CardRank.Five, result.Kicker.Rank);
         }
 
         [TestMethod]
@@ -127,11 +135,12 @@
                 new Card(CardSuit.Heart, CardRank.Seven)
             };
 
-            var classifier = new HandRankClassifier();
+            var classifier = new HandResultClassifier();
 
-            var rank = classifier.GetHandRank(cards);
+            var result = classifier.GetHandRankResult(cards);
 
-            Assert.AreEqual(HandRank.Straight, rank);
+            Assert.AreEqual(HandRank.Straight, result.HandRank);
+            Assert.AreEqual(CardRank.Seven, result.Kicker.Rank);
         }
 
         [TestMethod]
@@ -147,11 +156,33 @@
                 new Card(CardSuit.Heart, CardRank.King)
             };
 
-            var classifier = new HandRankClassifier();
+            var classifier = new HandResultClassifier();
 
-            var rank = classifier.GetHandRank(cards);
+            var result = classifier.GetHandRankResult(cards);
 
-            Assert.AreEqual(HandRank.Flush, rank);
+            Assert.AreEqual(HandRank.Flush, result.HandRank);
+            Assert.AreEqual(CardRank.Ace, result.Kicker.Rank);
+        }
+
+        [TestMethod]
+        public void GetHandRank_FullHouse_HappyPath()
+        {
+            var cards = new List<Card>()
+            {
+                new Card(CardSuit.Club, CardRank.Four),
+                new Card(CardSuit.Diamond, CardRank.Four),
+                new Card(CardSuit.Diamond, CardRank.King),
+                new Card(CardSuit.Heart, CardRank.King),
+                new Card(CardSuit.Spade, CardRank.King),
+                new Card(CardSuit.Spade, CardRank.Ace)
+            };
+
+            var classifier = new HandResultClassifier();
+
+            var result = classifier.GetHandRankResult(cards);
+
+            Assert.AreEqual(HandRank.FullHouse, result.HandRank);
+            Assert.AreEqual(CardRank.King, result.Kicker.Rank);
         }
 
         [TestMethod]
@@ -162,14 +193,16 @@
                 new Card(CardSuit.Club, CardRank.Five),
                 new Card(CardSuit.Diamond, CardRank.Five),
                 new Card(CardSuit.Heart, CardRank.Five),
-                new Card(CardSuit.Spade, CardRank.Five)
+                new Card(CardSuit.Spade, CardRank.Five),
+                new Card(CardSuit.Spade, CardRank.Three)
             };
 
-            var classifier = new HandRankClassifier();
+            var classifier = new HandResultClassifier();
 
-            var rank = classifier.GetHandRank(cards);
+            var result = classifier.GetHandRankResult(cards);
 
-            Assert.AreEqual(HandRank.FourOfAKind, rank);
+            Assert.AreEqual(HandRank.FourOfAKind, result.HandRank);
+            Assert.AreEqual(CardRank.Three, result.Kicker.Rank);
         }
 
         [TestMethod]
@@ -184,11 +217,12 @@
                 new Card(CardSuit.Heart, CardRank.Seven)
             };
 
-            var classifier = new HandRankClassifier();
+            var classifier = new HandResultClassifier();
 
-            var rank = classifier.GetHandRank(cards);
+            var result = classifier.GetHandRankResult(cards);
 
-            Assert.AreEqual(HandRank.StraightFlush, rank);
+            Assert.AreEqual(HandRank.StraightFlush, result.HandRank);
+            Assert.AreEqual(CardRank.Seven, result.Kicker.Rank);
         }
 
         [TestMethod]
@@ -204,11 +238,12 @@
                 new Card(CardSuit.Club, CardRank.Ace)
             };
 
-            var classifier = new HandRankClassifier();
+            var classifier = new HandResultClassifier();
 
-            var rank = classifier.GetHandRank(cards);
+            var result = classifier.GetHandRankResult(cards);
 
-            Assert.AreEqual(HandRank.RoyalFlush, rank);
+            Assert.AreEqual(HandRank.RoyalFlush, result.HandRank);
+            Assert.AreEqual(CardRank.Ace, result.Kicker.Rank);
         }
     }
 }
