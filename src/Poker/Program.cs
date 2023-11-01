@@ -1,4 +1,4 @@
-﻿namespace Poker
+namespace Poker
 {
     public static class Program
     {
@@ -23,8 +23,35 @@
 
         private static void PrettyPrintOutput(Engine engine)
         {
-            Console.WriteLine(@$"Player: {engine.WinningPlayer.Name} won {engine.Pot} chips with a {engine.WinningPlayer.HandRankResult.HandRank} of\n
-                {GetCardNames(engine.WinningPlayer.Cards)}\n
+
+            Console.WriteLine("FLOP:");
+
+            foreach (var card in engine.Flop)
+            {
+                Console.WriteLine(card);
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("TURN:");
+            foreach (var card in engine.Turn)
+            {
+                Console.WriteLine(card);
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("RIVER:");
+            foreach (var card in engine.River)
+            {
+                Console.WriteLine(card);
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("WINNER:");
+            Console.WriteLine(@$"Player: {engine.WinningPlayer.Name} won {engine.Pot} chips with a {engine.WinningPlayer.HandRankResult.HandRank} of
+                {GetCardNames(engine.WinningPlayer.Cards)}
                 and a kicker {engine.WinningPlayer.HandRankResult.Kicker}
             ");
         }

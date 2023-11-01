@@ -1,4 +1,4 @@
-﻿namespace Poker
+namespace Poker
 {
     public class Engine
     {
@@ -112,7 +112,7 @@
             }
 
             // TODO: What if multiple players have the same hand and kicker? They should split the pot evenly
-            this.WinningPlayer = this.Players.OrderByDescending(x => x.HandRankResult.HandRank).ThenByDescending(x => x.HandRankResult.Kicker).First();
+            this.WinningPlayer = this.Players.OrderByDescending(x => x.HandRankResult).First();
 
             this.WinningPlayer.AddChips(this.Pot);
         }
