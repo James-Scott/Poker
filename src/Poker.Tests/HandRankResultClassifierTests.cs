@@ -165,6 +165,27 @@
         }
 
         [TestMethod]
+        public void GetHandRank_Flush_OverFiveSuitedCards()
+        {
+            var cards = new List<Card>()
+            {
+                new Card(CardSuit.Spade, CardRank.Three),
+                new Card(CardSuit.Spade, CardRank.Five),
+                new Card(CardSuit.Spade, CardRank.Nine),
+                new Card(CardSuit.Spade, CardRank.Jack),
+                new Card(CardSuit.Spade, CardRank.Ace),
+                new Card(CardSuit.Spade, CardRank.King)
+            };
+
+            var classifier = new HandResultClassifier();
+
+            var result = classifier.GetHandRankResult(cards);
+
+            Assert.AreEqual(HandRank.Flush, result.HandRank);
+            Assert.AreEqual(CardRank.Ace, result.Kicker.Rank);
+        }
+
+        [TestMethod]
         public void GetHandRank_FullHouse_HappyPath()
         {
             var cards = new List<Card>()

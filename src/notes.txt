@@ -1,5 +1,3 @@
 Doesn't currently take into account what the card rank is on the overall hand rank is, i.e. a pair of kings is better than a pair of jacks but currently they draw and kicker wins
 
 Kicker logic needs to only use hand cards when rank is below a straight
-
-Seems to be some sort of bug in the flush handler logic where it is nulling the cards

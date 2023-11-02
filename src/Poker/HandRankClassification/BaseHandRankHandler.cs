@@ -106,7 +106,7 @@
 
         protected static bool IsFlush(List<Card> cards)
         {
-            return cards.GroupBy(x => x.Suit).Any(x => x.Count() == 5);
+            return cards.GroupBy(x => x.Suit).Any(x => x.Count() >= 5);
         }
 
         protected static List<Card> GetFlush(List<Card> cards)
@@ -118,7 +118,7 @@
 
             var ordered = cards.OrderBy(x => x.Rank).ToList();
 
-            var flush = ordered.GroupBy(x => x.Suit).Where(x => x.Count() == 5);
+            var flush = ordered.GroupBy(x => x.Suit).Where(x => x.Count() >= 5);
 
             ordered.RemoveAll(x => x.Suit != flush.Select(x => x.Key).First());
 
