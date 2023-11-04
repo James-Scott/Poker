@@ -8,16 +8,30 @@
         {
             var player = new Player("John Smith", 0);
 
-            player.Cards.Add(new Card(CardSuit.Club, CardRank.Three));
-            player.Cards.Add(new Card(CardSuit.Diamond, CardRank.Five));
-            player.Cards.Add(new Card(CardSuit.Diamond, CardRank.Jack));
-            player.Cards.Add(new Card(CardSuit.Heart, CardRank.Jack));
-            player.Cards.Add(new Card(CardSuit.Spade, CardRank.Two));
+            player.HandCards.Add(new Card(CardSuit.Club, CardRank.Three));
+            player.HandCards.Add(new Card(CardSuit.Diamond, CardRank.Five));
+            player.CommunityCards.Add(new Card(CardSuit.Diamond, CardRank.Jack));
+            player.CommunityCards.Add(new Card(CardSuit.Heart, CardRank.Jack));
+            player.CommunityCards.Add(new Card(CardSuit.Spade, CardRank.Two));
 
             player.CalculateHandRank();
 
             Assert.AreEqual(HandRank.Pair, player.HandRankResult.HandRank);
             Assert.AreEqual(CardRank.Five, player.HandRankResult.Kicker.Rank);
+        }
+
+        [TestMethod]
+        public void Player_Cards_AddsHandAndCommunityCards()
+        {
+            var player = new Player("John Smith", 0);
+
+            player.HandCards.Add(new Card(CardSuit.Club, CardRank.Three));
+            player.HandCards.Add(new Card(CardSuit.Diamond, CardRank.Five));
+            player.CommunityCards.Add(new Card(CardSuit.Diamond, CardRank.Jack));
+            player.CommunityCards.Add(new Card(CardSuit.Heart, CardRank.Jack));
+            player.CommunityCards.Add(new Card(CardSuit.Spade, CardRank.Two));
+
+            Assert.AreEqual(5, player.Cards.Count);
         }
 
         [TestMethod]

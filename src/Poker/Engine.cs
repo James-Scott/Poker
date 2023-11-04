@@ -1,4 +1,4 @@
-namespace Poker
+﻿namespace Poker
 {
     public class Engine
     {
@@ -29,7 +29,8 @@ namespace Poker
         {
             foreach (var player in this.Players)
             {
-                player.Cards.Clear();
+                player.HandCards.Clear();
+                player.CommunityCards.Clear();
             }
 
             this.Deck.Reset();
@@ -70,7 +71,9 @@ namespace Poker
         {
             foreach (var player in this.Players)
             {
-                player.Cards.AddRange(this.Deck.Deal(2));
+                var handCards = this.Deck.Deal(2);
+
+                player.HandCards.AddRange(handCards);
             }
         }
 
@@ -80,7 +83,7 @@ namespace Poker
 
             foreach (var player in this.Players)
             {
-                player.Cards.AddRange(this.Flop);
+                player.CommunityCards.AddRange(this.Flop);
             }
         }
 
@@ -90,7 +93,7 @@ namespace Poker
 
             foreach (var player in this.Players)
             {
-                player.Cards.AddRange(this.Turn);
+                player.CommunityCards.AddRange(this.Turn);
             }
         }
 
@@ -100,7 +103,7 @@ namespace Poker
 
             foreach (var player in this.Players)
             {
-                player.Cards.AddRange(this.River);
+                player.CommunityCards.AddRange(this.River);
             }
         }
 

@@ -1,4 +1,4 @@
-namespace Poker
+﻿namespace Poker
 {
     public static class Program
     {
@@ -54,6 +54,14 @@ namespace Poker
                 {GetCardNames(engine.WinningPlayer.Cards)}
                 and a kicker {engine.WinningPlayer.HandRankResult.Kicker}
             ");
+
+            Console.WriteLine();
+
+            Console.WriteLine("HAND CARDS:");
+            foreach (var card in engine.WinningPlayer.HandCards)
+            {
+                Console.WriteLine(card);
+            }
         }
 
         private static string GetCardNames(List<Card> cards)

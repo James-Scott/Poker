@@ -8,14 +8,19 @@
         {
             this.Name = name;
             this.Chips = chips;
-            this.Cards = new List<Card>();
+            this.HandCards = new List<Card>();
+            this.CommunityCards = new List<Card>();
         }
 
         public string Name { get; }
 
         public int Chips { get; private set; }
 
-        public List<Card> Cards { get; }
+        public List<Card> HandCards { get; }
+
+        public List<Card> CommunityCards { get; }
+
+        public List<Card> Cards => this.HandCards.Concat(this.CommunityCards).ToList();
 
         public HandResult HandRankResult { get; private set; }
 
