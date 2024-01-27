@@ -9,11 +9,10 @@
                 throw new ArgumentException(nameof(handCards));
             }
 
-            // TODO: Reinstate once all tests are reworked
-            //if (communityCards.Count == 0)
-            //{
-            //    throw new ArgumentException(nameof(communityCards));
-            //}
+            if (communityCards.Count == 0)
+            {
+                throw new ArgumentException(nameof(communityCards));
+            }
 
             var royalFlush = new RoyalFlushRankHandler();
             var straightFlush = new StraightFlushRankHandler();

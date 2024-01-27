@@ -1,6 +1,6 @@
 ﻿namespace Poker.HandRankClassification
 {
-    public class FullHouseRankHandler : BaseHandRankHandler, IKicker
+    public class FullHouseRankHandler : BaseHandRankHandler, IWinningRankCalculator, IKickerRankCalculator
     {
         public override HandResult Handle(List<Card> handCards, List<Card> communityCards)
         {
@@ -15,16 +15,22 @@
 
                 if (ordered.GroupBy(x => x.Rank).Any(x => x.Count() == 2))
                 {
-                    return new HandResult(HandRank.FullHouse, this.GetKicker(tok.Select(x => new Card(x.Suit, x.Rank)).ToList()));
+                    var tokCards = tok.Select(x => new Card(x.Suit, x.Rank)).ToList();
+                    return new HandResult(HandRank.FullHouse, this.CalculateWinningRank(tokCards), this.CalculateKickerRank(tokCards));
                 }
             }
 
             return base.Handle(handCards, communityCards);
         }
 
-        public Card GetKicker(List<Card> cards)
+        public CardRank CalculateWinningRank(List<Card> cards)
         {
-            return cards.First();
+            return cards.First().Rank;
+        }
+
+        public CardRank CalculateKickerRank(List<Card> cards)
+        {
+            return this.CalculateWinningRank(cards);
         }
     }
 }

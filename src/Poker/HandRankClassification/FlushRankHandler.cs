@@ -1,6 +1,6 @@
 ﻿namespace Poker.HandRankClassification
 {
-    public class FlushRankHandler : BaseHandRankHandler, IKicker
+    public class FlushRankHandler : BaseHandRankHandler, IWinningRankCalculator, IKickerRankCalculator
     {
         public override HandResult Handle(List<Card> handCards, List<Card> communityCards)
         {
@@ -8,16 +8,21 @@
 
             if (IsFlush(cards))
             {
-                return new HandResult(HandRank.Flush, this.GetKicker(cards));
+                return new HandResult(HandRank.Flush, this.CalculateWinningRank(cards), this.CalculateKickerRank(cards));
             }
 
             return base.Handle(handCards, communityCards);
         }
 
-        public Card GetKicker(List<Card> cards)
+        public CardRank CalculateWinningRank(List<Card> cards)
         {
             var flush = GetFlush(cards);
-            return flush.OrderByDescending(x => x.Rank).First();
+            return flush.OrderByDescending(x => x.Rank).First().Rank;
+        }
+
+        public CardRank CalculateKickerRank(List<Card> cards)
+        {
+            return this.CalculateWinningRank(cards);
         }
     }
 }

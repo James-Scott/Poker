@@ -1,6 +1,6 @@
 ﻿namespace Poker.HandRankClassification
 {
-    public class StraightRankHandler : BaseHandRankHandler, IKicker
+    public class StraightRankHandler : BaseHandRankHandler, IWinningRankCalculator, IKickerRankCalculator
     {
         public override HandResult Handle(List<Card> handCards, List<Card> communityCards)
         {
@@ -8,16 +8,21 @@
 
             if (IsStraight(cards))
             {
-                return new HandResult(HandRank.Straight, this.GetKicker(cards));
+                return new HandResult(HandRank.Straight, this.CalculateWinningRank(cards), this.CalculateKickerRank(cards));
             }
 
             return base.Handle(handCards, communityCards);
         }
 
-        public Card GetKicker(List<Card> cards)
+        public CardRank CalculateWinningRank(List<Card> cards)
         {
             var straight = GetStraight(cards);
-            return straight.Last();
+            return straight.Last().Rank;
+        }
+
+        public CardRank CalculateKickerRank(List<Card> cards)
+        {
+            return this.CalculateWinningRank(cards);
         }
     }
 }
