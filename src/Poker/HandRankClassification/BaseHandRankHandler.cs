@@ -11,11 +11,11 @@
             return handler;
         }
 
-        public virtual HandResult Handle(List<Card> cards)
+        public virtual HandResult Handle(List<Card> handCards, List<Card> communityCards)
         {
             if (this.next != null)
             {
-                return this.next.Handle(cards);
+                return this.next.Handle(handCards, communityCards);
             }
             else
             {

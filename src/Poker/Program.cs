@@ -23,7 +23,6 @@
 
         private static void PrettyPrintOutput(Engine engine)
         {
-
             Console.WriteLine("FLOP:");
 
             foreach (var card in engine.Flop)
@@ -50,8 +49,9 @@
             Console.WriteLine();
 
             Console.WriteLine("WINNER:");
-            Console.WriteLine(@$"Player: {engine.WinningPlayer.Name} won {engine.Pot} chips with a {engine.WinningPlayer.HandRankResult.HandRank} of
-                {GetCardNames(engine.WinningPlayer.Cards)}
+            Console.WriteLine(@$"Player: {engine.WinningPlayer.Name} 
+                won {engine.Pot} chips 
+                with a {engine.WinningPlayer.HandRankResult.HandRank} of {engine.WinningPlayer.HandRankResult.WinningRank} 
                 and a kicker {engine.WinningPlayer.HandRankResult.KickerRank}
             ");
 
@@ -62,11 +62,6 @@
             {
                 Console.WriteLine(card);
             }
-        }
-
-        private static string GetCardNames(List<Card> cards)
-        {
-            return string.Join(", ", cards.OrderBy(x => x.Rank).ThenBy(x => x.Suit).Select(x => x.ToString()));
         }
     }
 }

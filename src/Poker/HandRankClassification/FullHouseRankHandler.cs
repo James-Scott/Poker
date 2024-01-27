@@ -2,8 +2,10 @@
 {
     public class FullHouseRankHandler : BaseHandRankHandler, IKicker
     {
-        public override HandResult Handle(List<Card> cards)
+        public override HandResult Handle(List<Card> handCards, List<Card> communityCards)
         {
+            var cards = handCards.Concat(communityCards).ToList();
+
             var ordered = cards.OrderByDescending(x => x.Rank).ToList();
 
             if (ordered.GroupBy(x => x.Rank).Any(x => x.Count() == 3))
@@ -17,7 +19,7 @@
                 }
             }
 
-            return base.Handle(cards);
+            return base.Handle(handCards, communityCards);
         }
 
         public Card GetKicker(List<Card> cards)

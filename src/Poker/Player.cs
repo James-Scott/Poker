@@ -33,7 +33,7 @@
                 throw new ArgumentException(nameof(this.Cards));
             }
 
-            this.HandRankResult = classifier.GetHandRankResult(this.Cards);
+            this.HandRankResult = classifier.GetHandRankResult(this.HandCards, this.CommunityCards);
         }
 
         public void BetChips(int amount)

@@ -2,11 +2,11 @@
 {
     public class HighCardHandler : BaseHandRankHandler
     {
-        public override HandResult Handle(List<Card> cards)
+        public override HandResult Handle(List<Card> handCards, List<Card> communityCards)
         {
-            var highCard = cards.OrderByDescending(x => x.Rank).First();
+            var highCard = handCards.OrderByDescending(x => x.Rank).First();
 
-            return new HandResult(HandRank.HighCard, highCard);
+            return new HandResult(HandRank.HighCard, highCard.Rank, highCard.Rank);
         }
     }
 }

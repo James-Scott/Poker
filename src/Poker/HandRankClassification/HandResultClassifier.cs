@@ -2,12 +2,18 @@
 {
     public class HandResultClassifier
     {
-        public HandResult GetHandRankResult(List<Card> cards)
+        public HandResult GetHandRankResult(List<Card> handCards, List<Card> communityCards)
         {
-            if (cards.Count == 0)
+            if (handCards.Count == 0)
             {
-                throw new ArgumentException(nameof(cards));
+                throw new ArgumentException(nameof(handCards));
             }
+
+            // TODO: Reinstate once all tests are reworked
+            //if (communityCards.Count == 0)
+            //{
+            //    throw new ArgumentException(nameof(communityCards));
+            //}
 
             var royalFlush = new RoyalFlushRankHandler();
             var straightFlush = new StraightFlushRankHandler();
@@ -30,7 +36,7 @@
                 .SetNext(pair)
                 .SetNext(highCard);
 
-            return royalFlush.Handle(cards);
+            return royalFlush.Handle(handCards, communityCards);
         }
     }
 }

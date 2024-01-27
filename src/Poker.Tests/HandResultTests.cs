@@ -1,7 +1,7 @@
-﻿using Poker.HandRankClassification;
-
-namespace Poker.Tests
+﻿namespace Poker.Tests
 {
+    using Poker.HandRankClassification;
+
     [TestClass]
     public class HandResultTests
     {

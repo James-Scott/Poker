@@ -8,74 +8,96 @@
         [TestMethod]
         public void GetHandRank_HighCard_HappyPath()
         {
-            var cards = new List<Card>()
+            var handCards = new List<Card>()
             {
                 new Card(CardSuit.Club, CardRank.Two),
-                new Card(CardSuit.Diamond, CardRank.Three)
+                new Card(CardSuit.Diamond, CardRank.Jack)
+            };
+
+            var commmunityCards = new List<Card>()
+            {
+                new Card(CardSuit.Heart, CardRank.Three)
             };
 
             var classifier = new HandResultClassifier();
 
-            var result = classifier.GetHandRankResult(cards);
+            var result = classifier.GetHandRankResult(handCards, commmunityCards);
 
             Assert.AreEqual(HandRank.HighCard, result.HandRank);
-            Assert.AreEqual(CardRank.Three, result.KickerRank);
+            Assert.AreEqual(CardRank.Jack, result.WinningRank);
+            Assert.AreEqual(CardRank.Jack, result.KickerRank);
         }
 
         [TestMethod]
         public void GetHandRank_Pair_HappyPath()
         {
-            var cards = new List<Card>()
+            var handCards = new List<Card>()
             {
                 new Card(CardSuit.Club, CardRank.Five),
-                new Card(CardSuit.Diamond, CardRank.Five),
                 new Card(CardSuit.Heart, CardRank.Seven)
+            };
+
+            var commmunityCards = new List<Card>()
+            {
+                new Card(CardSuit.Diamond, CardRank.Five),
+                new Card(CardSuit.Heart, CardRank.Ace)
             };
 
             var classifier = new HandResultClassifier();
 
-            var result = classifier.GetHandRankResult(cards);
+            var result = classifier.GetHandRankResult(handCards, commmunityCards);
 
             Assert.AreEqual(HandRank.Pair, result.HandRank);
-            Assert.AreEqual(CardRank.Seven, result.KickerRank);
+            Assert.AreEqual(CardRank.Five, result.WinningRank);
+            Assert.AreEqual(CardRank.Ace, result.KickerRank);
         }
 
         [TestMethod]
         public void GetHandRank_TwoPair_HappyPath()
         {
-            var cards = new List<Card>()
+            var handCards = new List<Card>()
             {
                 new Card(CardSuit.Club, CardRank.Five),
+                new Card(CardSuit.Heart, CardRank.Eight)
+            };
+
+            var communityCards = new List<Card>()
+            {
                 new Card(CardSuit.Diamond, CardRank.Five),
                 new Card(CardSuit.Club, CardRank.King),
                 new Card(CardSuit.Heart, CardRank.King),
-                new Card(CardSuit.Heart, CardRank.Eight)
             };
 
             var classifier = new HandResultClassifier();
 
-            var result = classifier.GetHandRankResult(cards);
+            var result = classifier.GetHandRankResult(handCards, communityCards);
 
             Assert.AreEqual(HandRank.TwoPair, result.HandRank);
+            Assert.AreEqual(CardRank.King, result.WinningRank);
             Assert.AreEqual(CardRank.Eight, result.KickerRank);
         }
 
         [TestMethod]
         public void GetHandRank_ThreeOfAKind_HappyPath()
         {
-            var cards = new List<Card>()
+            var handCards = new List<Card>()
             {
                 new Card(CardSuit.Club, CardRank.Five),
-                new Card(CardSuit.Diamond, CardRank.Five),
+                new Card(CardSuit.Diamond, CardRank.Five)
+            };
+
+            var communityCards = new List<Card>()
+            {
                 new Card(CardSuit.Heart, CardRank.Five),
                 new Card(CardSuit.Heart, CardRank.Nine)
             };
 
             var classifier = new HandResultClassifier();
 
-            var result = classifier.GetHandRankResult(cards);
+            var result = classifier.GetHandRankResult(handCards, communityCards);
 
             Assert.AreEqual(HandRank.ThreeOfAKind, result.HandRank);
+            Assert.AreEqual(CardRank.Five, result.WinningRank);
             Assert.AreEqual(CardRank.Nine, result.KickerRank);
         }
 
@@ -95,7 +117,7 @@
 
             var classifier = new HandResultClassifier();
 
-            var result = classifier.GetHandRankResult(cards);
+            var result = classifier.GetHandRankResult(cards, new List<Card>());
 
             Assert.AreEqual(HandRank.Straight, result.HandRank);
             Assert.AreEqual(CardRank.Eight, result.KickerRank);
@@ -116,7 +138,7 @@
 
             var classifier = new HandResultClassifier();
 
-            var result = classifier.GetHandRankResult(cards);
+            var result = classifier.GetHandRankResult(cards, new List<Card>());
 
             Assert.AreEqual(HandRank.Straight, result.HandRank);
             Assert.AreEqual(CardRank.Five, result.KickerRank);
@@ -137,7 +159,7 @@
 
             var classifier = new HandResultClassifier();
 
-            var result = classifier.GetHandRankResult(cards);
+            var result = classifier.GetHandRankResult(cards, new List<Card>());
 
             Assert.AreEqual(HandRank.Straight, result.HandRank);
             Assert.AreEqual(CardRank.Seven, result.KickerRank);
@@ -158,7 +180,7 @@
 
             var classifier = new HandResultClassifier();
 
-            var result = classifier.GetHandRankResult(cards);
+            var result = classifier.GetHandRankResult(cards, new List<Card>());
 
             Assert.AreEqual(HandRank.Flush, result.HandRank);
             Assert.AreEqual(CardRank.Ace, result.KickerRank);
@@ -179,7 +201,7 @@
 
             var classifier = new HandResultClassifier();
 
-            var result = classifier.GetHandRankResult(cards);
+            var result = classifier.GetHandRankResult(cards, new List<Card>());
 
             Assert.AreEqual(HandRank.Flush, result.HandRank);
             Assert.AreEqual(CardRank.Ace, result.KickerRank);
@@ -200,7 +222,7 @@
 
             var classifier = new HandResultClassifier();
 
-            var result = classifier.GetHandRankResult(cards);
+            var result = classifier.GetHandRankResult(cards, new List<Card>());
 
             Assert.AreEqual(HandRank.FullHouse, result.HandRank);
             Assert.AreEqual(CardRank.King, result.KickerRank);
@@ -209,10 +231,14 @@
         [TestMethod]
         public void GetHandRank_FourOfAKind_HappyPath()
         {
-            var cards = new List<Card>()
+            var handCards = new List<Card>()
             {
                 new Card(CardSuit.Club, CardRank.Five),
                 new Card(CardSuit.Diamond, CardRank.Five),
+            };
+
+            var communityCards = new List<Card>()
+            {
                 new Card(CardSuit.Heart, CardRank.Five),
                 new Card(CardSuit.Spade, CardRank.Five),
                 new Card(CardSuit.Spade, CardRank.Three)
@@ -220,9 +246,10 @@
 
             var classifier = new HandResultClassifier();
 
-            var result = classifier.GetHandRankResult(cards);
+            var result = classifier.GetHandRankResult(handCards, communityCards);
 
             Assert.AreEqual(HandRank.FourOfAKind, result.HandRank);
+            Assert.AreEqual(CardRank.Five, result.WinningRank);
             Assert.AreEqual(CardRank.Three, result.KickerRank);
         }
 
@@ -240,7 +267,7 @@
 
             var classifier = new HandResultClassifier();
 
-            var result = classifier.GetHandRankResult(cards);
+            var result = classifier.GetHandRankResult(cards, new List<Card>());
 
             Assert.AreEqual(HandRank.StraightFlush, result.HandRank);
             Assert.AreEqual(CardRank.Seven, result.KickerRank);
@@ -261,7 +288,7 @@
 
             var classifier = new HandResultClassifier();
 
-            var result = classifier.GetHandRankResult(cards);
+            var result = classifier.GetHandRankResult(cards, new List<Card>());
 
             Assert.AreEqual(HandRank.RoyalFlush, result.HandRank);
             Assert.AreEqual(CardRank.Ace, result.KickerRank);
