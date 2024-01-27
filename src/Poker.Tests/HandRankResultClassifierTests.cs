@@ -19,7 +19,7 @@
             var result = classifier.GetHandRankResult(cards);
 
             Assert.AreEqual(HandRank.HighCard, result.HandRank);
-            Assert.AreEqual(CardRank.Three, result.Kicker.Rank);
+            Assert.AreEqual(CardRank.Three, result.KickerRank);
         }
 
         [TestMethod]
@@ -37,7 +37,7 @@
             var result = classifier.GetHandRankResult(cards);
 
             Assert.AreEqual(HandRank.Pair, result.HandRank);
-            Assert.AreEqual(CardRank.Seven, result.Kicker.Rank);
+            Assert.AreEqual(CardRank.Seven, result.KickerRank);
         }
 
         [TestMethod]
@@ -57,7 +57,7 @@
             var result = classifier.GetHandRankResult(cards);
 
             Assert.AreEqual(HandRank.TwoPair, result.HandRank);
-            Assert.AreEqual(CardRank.Eight, result.Kicker.Rank);
+            Assert.AreEqual(CardRank.Eight, result.KickerRank);
         }
 
         [TestMethod]
@@ -76,7 +76,7 @@
             var result = classifier.GetHandRankResult(cards);
 
             Assert.AreEqual(HandRank.ThreeOfAKind, result.HandRank);
-            Assert.AreEqual(CardRank.Nine, result.Kicker.Rank);
+            Assert.AreEqual(CardRank.Nine, result.KickerRank);
         }
 
         [TestMethod]
@@ -98,7 +98,7 @@
             var result = classifier.GetHandRankResult(cards);
 
             Assert.AreEqual(HandRank.Straight, result.HandRank);
-            Assert.AreEqual(CardRank.Eight, result.Kicker.Rank);
+            Assert.AreEqual(CardRank.Eight, result.KickerRank);
         }
 
         [TestMethod]
@@ -119,7 +119,7 @@
             var result = classifier.GetHandRankResult(cards);
 
             Assert.AreEqual(HandRank.Straight, result.HandRank);
-            Assert.AreEqual(CardRank.Five, result.Kicker.Rank);
+            Assert.AreEqual(CardRank.Five, result.KickerRank);
         }
 
         [TestMethod]
@@ -140,7 +140,7 @@
             var result = classifier.GetHandRankResult(cards);
 
             Assert.AreEqual(HandRank.Straight, result.HandRank);
-            Assert.AreEqual(CardRank.Seven, result.Kicker.Rank);
+            Assert.AreEqual(CardRank.Seven, result.KickerRank);
         }
 
         [TestMethod]
@@ -161,7 +161,7 @@
             var result = classifier.GetHandRankResult(cards);
 
             Assert.AreEqual(HandRank.Flush, result.HandRank);
-            Assert.AreEqual(CardRank.Ace, result.Kicker.Rank);
+            Assert.AreEqual(CardRank.Ace, result.KickerRank);
         }
 
         [TestMethod]
@@ -182,7 +182,7 @@
             var result = classifier.GetHandRankResult(cards);
 
             Assert.AreEqual(HandRank.Flush, result.HandRank);
-            Assert.AreEqual(CardRank.Ace, result.Kicker.Rank);
+            Assert.AreEqual(CardRank.Ace, result.KickerRank);
         }
 
         [TestMethod]
@@ -203,7 +203,7 @@
             var result = classifier.GetHandRankResult(cards);
 
             Assert.AreEqual(HandRank.FullHouse, result.HandRank);
-            Assert.AreEqual(CardRank.King, result.Kicker.Rank);
+            Assert.AreEqual(CardRank.King, result.KickerRank);
         }
 
         [TestMethod]
@@ -223,7 +223,7 @@
             var result = classifier.GetHandRankResult(cards);
 
             Assert.AreEqual(HandRank.FourOfAKind, result.HandRank);
-            Assert.AreEqual(CardRank.Three, result.Kicker.Rank);
+            Assert.AreEqual(CardRank.Three, result.KickerRank);
         }
 
         [TestMethod]
@@ -243,7 +243,7 @@
             var result = classifier.GetHandRankResult(cards);
 
             Assert.AreEqual(HandRank.StraightFlush, result.HandRank);
-            Assert.AreEqual(CardRank.Seven, result.Kicker.Rank);
+            Assert.AreEqual(CardRank.Seven, result.KickerRank);
         }
 
         [TestMethod]
@@ -264,7 +264,7 @@
             var result = classifier.GetHandRankResult(cards);
 
             Assert.AreEqual(HandRank.RoyalFlush, result.HandRank);
-            Assert.AreEqual(CardRank.Ace, result.Kicker.Rank);
+            Assert.AreEqual(CardRank.Ace, result.KickerRank);
         }
     }
 }

@@ -52,7 +52,7 @@
             Console.WriteLine("WINNER:");
             Console.WriteLine(@$"Player: {engine.WinningPlayer.Name} won {engine.Pot} chips with a {engine.WinningPlayer.HandRankResult.HandRank} of
                 {GetCardNames(engine.WinningPlayer.Cards)}
-                and a kicker {engine.WinningPlayer.HandRankResult.Kicker}
+                and a kicker {engine.WinningPlayer.HandRankResult.KickerRank}
             ");
 
             Console.WriteLine();
