@@ -2,6 +2,8 @@
 {
     public class BaseHandRankHandler : IHandRankHandler
     {
+        private const int TotalCardRanks = 13;
+
         private IHandRankHandler next;
 
         public IHandRankHandler SetNext(IHandRankHandler handler)
@@ -25,16 +27,16 @@
 
         protected static bool IsStraight(List<Card> cards)
         {
-            if (IsAceLowStraight(cards))
-            {
-                return true;
-            }
-
             var ordered = cards.OrderBy(x => x.Rank).ThenBy(x => x.Suit).GroupBy(x => x.Rank).Select(x => x.First()).ToList();
+
+            if (ordered.Last().Rank == CardRank.Ace)
+            {
+                ordered.Insert(0, ordered.Last());
+            }
 
             var straight = new List<Card>() { ordered.First() };
 
-            var expectedNextRank = (int)ordered.First().Rank + 1;
+            var expectedNextRank = ((int)ordered.First().Rank + 1) % TotalCardRanks;
 
             for (int i = 1; i < ordered.Count; i++)
             {
@@ -68,16 +70,18 @@
                 throw new ArgumentException(nameof(cards));
             }
 
-            if (IsAceLowStraight(cards))
-            {
-                return GetAceLowStraight(cards);
-            }
-
             var ordered = cards.OrderBy(x => x.Rank).ThenBy(x => x.Suit).GroupBy(x => x.Rank).Select(x => x.First()).ToList();
+
+            if (ordered.Last().Rank == CardRank.Ace)
+            {
+                ordered.Insert(0, ordered.Last());
+            }
 
             var straight = new List<Card>() { ordered.First() };
 
-            var expectedNextRank = (int)ordered.First().Rank + 1;
+            var straights = new List<List<Card>>(); // This approach could probably be optimised later
+
+            var expectedNextRank = ((int)ordered.First().Rank + 1) % TotalCardRanks;
 
             for (int i = 1; i < ordered.Count; i++)
             {
@@ -88,9 +92,9 @@
                     straight.Add(current);
                     expectedNextRank++;
 
-                    if (straight.Count == 5)
+                    if (straight.Count >= 5)
                     {
-                        break;
+                        straights.Add(straight.Skip(straight.Count - 5).Take(5).ToList());
                     }
                 }
                 else
@@ -101,7 +105,7 @@
                 }
             }
 
-            return straight;
+            return straights.Last();
         }
 
         protected static bool IsFlush(List<Card> cards)
@@ -188,37 +192,6 @@
             }
 
             return cards.Where(x => x.Suit == royalFlushSuit && ranks.Contains(x.Rank)).OrderBy(x => x.Rank).ToList();
-        }
-
-        private static bool IsAceLowStraight(List<Card> cards)
-        {
-            var ordered = cards.OrderBy(x => x.Rank).ThenBy(x => x.Suit).GroupBy(x => x.Rank).Select(x => x.First()).ToList();
-
-            return ordered.Where(x => x.Rank == CardRank.Ace
-                || x.Rank == CardRank.Two
-                || x.Rank == CardRank.Three
-                || x.Rank == CardRank.Four
-                || x.Rank == CardRank.Five).Count() == 5;
-        }
-
-        private static List<Card> GetAceLowStraight(List<Card> cards)
-        {
-            var ordered = cards.OrderBy(x => x.Rank).ThenBy(x => x.Suit).GroupBy(x => x.Rank).Select(x => x.First()).ToList();
-
-            var straight = ordered.Where(x => x.Rank == CardRank.Ace
-                || x.Rank == CardRank.Two
-                || x.Rank == CardRank.Three
-                || x.Rank == CardRank.Four
-                || x.Rank == CardRank.Five).ToList();
-
-            return new List<Card>()
-            {
-                straight[4],
-                straight[0],
-                straight[1],
-                straight[2],
-                straight[3]
-            };
         }
     }
 }

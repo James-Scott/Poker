@@ -181,6 +181,33 @@
         }
 
         [TestMethod]
+        public void GetHandRank_Straight_WhereItContinuesPastFiveCardsReturnsHighestFive()
+        {
+            var handCards = new List<Card>()
+            {
+                new Card(CardSuit.Club, CardRank.Two),
+                new Card(CardSuit.Club, CardRank.Three)
+            };
+
+            var communityCards = new List<Card>()
+            {
+                new Card(CardSuit.Club, CardRank.Four),
+                new Card(CardSuit.Diamond, CardRank.Five),
+                new Card(CardSuit.Diamond, CardRank.Six),
+                new Card(CardSuit.Heart, CardRank.Seven),
+                new Card(CardSuit.Spade, CardRank.Eight)
+            };
+
+            var classifier = new HandResultClassifier();
+
+            var result = classifier.GetHandRankResult(handCards, communityCards);
+
+            Assert.AreEqual(HandRank.Straight, result.HandRank);
+            Assert.AreEqual(CardRank.Eight, result.WinningRank);
+            Assert.AreEqual(CardRank.Eight, result.KickerRank);
+        }
+
+        [TestMethod]
         public void GetHandRank_Flush_HappyPath()
         {
             var handCards = new List<Card>()
