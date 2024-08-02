@@ -9,6 +9,7 @@
             this.Turn = new List<Card>(1);
             this.River = new List<Card>(1);
             this.Players = new List<Player>();
+            this.WinningPlayers = new List<Player>();
         }
 
         public Deck Deck { get; }
@@ -21,7 +22,7 @@
 
         public List<Player> Players { get; }
 
-        public Player WinningPlayer { get; private set; }
+        public List<Player> WinningPlayers { get; private set; }
 
         public int Pot { get; private set; }
 
@@ -38,6 +39,7 @@
             this.Turn.Clear();
             this.River.Clear();
             this.Pot = 0;
+            this.WinningPlayers.Clear();
         }
 
         public void Run()
@@ -114,10 +116,12 @@
                 player.CalculateHandRank();
             }
 
-            // TODO: What if multiple players have the same hand and kicker? They should split the pot evenly
-            this.WinningPlayer = this.Players.OrderByDescending(x => x.HandRankResult).First();
+            this.WinningPlayers = this.Players.OrderByDescending(x => x.HandRankResult).GroupBy(x => x.HandRankResult.ToString()).First().ToList();
 
-            this.WinningPlayer.AddChips(this.Pot);
+            foreach (var winningPlayer in this.WinningPlayers)
+            {
+                winningPlayer.AddChips(this.Pot / this.WinningPlayers.Count);
+            }
         }
     }
 }

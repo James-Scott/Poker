@@ -2,14 +2,6 @@
 {
     public class HandResult : IComparable<HandResult>, IComparable
     {
-        // TODO: Temp to avoid breaking changes remove this after refactor
-        public HandResult(HandRank handRank, Card kicker)
-        {
-            this.HandRank = handRank;
-            this.KickerRank = kicker.Rank;
-            this.WinningRank = CardRank.Two;
-        }
-
         public HandResult(HandRank handRank, CardRank winningRank, CardRank kickerRank)
         {
             this.HandRank = handRank;
@@ -68,6 +60,11 @@
             }
 
             return this.CompareTo(otherHandResult);
+        }
+
+        public override string ToString()
+        {
+            return $"HandRank: {this.HandRank}, WinningRank: {this.WinningRank}, KickerRank: {this.KickerRank}";
         }
     }
 }

@@ -8,17 +8,24 @@
 
             for (int i = 0; i < 5; i++)
             {
-                engine.Players.Add(new Player($"Player Number: {i + 1}", 100));
+                engine.Players.Add(new Player($"Player Number: {i + 1}", 1000));
             }
 
-            foreach (var player in engine.Players)
+            for (int i = 0; i < 100; i++)
             {
-                engine.Bet(player, 50);
+                Console.WriteLine($"Hand Number: {i + 1}");
+
+                foreach (var player in engine.Players)
+                {
+                    engine.Bet(player, 10);
+                }
+
+                engine.Run();
+
+                PrettyPrintOutput(engine);
+
+                engine.Reset();
             }
-
-            engine.Run();
-
-            PrettyPrintOutput(engine);
         }
 
         private static void PrettyPrintOutput(Engine engine)
@@ -49,18 +56,22 @@
             Console.WriteLine();
 
             Console.WriteLine("WINNER:");
-            Console.WriteLine(@$"Player: {engine.WinningPlayer.Name} 
-                won {engine.Pot} chips 
-                with a {engine.WinningPlayer.HandRankResult.HandRank} of {engine.WinningPlayer.HandRankResult.WinningRank} 
-                and a kicker {engine.WinningPlayer.HandRankResult.KickerRank}
-            ");
 
-            Console.WriteLine();
-
-            Console.WriteLine("HAND CARDS:");
-            foreach (var card in engine.WinningPlayer.HandCards)
+            foreach (var winningPlayer in engine.WinningPlayers)
             {
-                Console.WriteLine(card);
+                Console.WriteLine(@$"Player: {winningPlayer.Name} 
+                    won {engine.Pot / engine.WinningPlayers.Count} chips 
+                    with a {winningPlayer.HandRankResult.HandRank} of {winningPlayer.HandRankResult.WinningRank} 
+                    and a kicker {winningPlayer.HandRankResult.KickerRank}
+                ");
+
+                Console.WriteLine();
+
+                Console.WriteLine("HAND CARDS:");
+                foreach (var card in winningPlayer.HandCards)
+                {
+                    Console.WriteLine(card);
+                }
             }
         }
     }

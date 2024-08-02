@@ -1,4 +1,4 @@
-﻿namespace Poker.Tests
+namespace Poker.Tests
 {
     [TestClass]
     public class PlayerTests
@@ -17,6 +17,7 @@
             player.CalculateHandRank();
 
             Assert.AreEqual(HandRank.Pair, player.HandRankResult.HandRank);
+            Assert.AreEqual(CardRank.Jack, player.HandRankResult.WinningRank);
             Assert.AreEqual(CardRank.Five, player.HandRankResult.KickerRank);
         }
 

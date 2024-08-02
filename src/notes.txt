@@ -1,3 +1,1 @@
-Seems to still be a bug when winners have the same hand, logic seems right but it never actually has more than one winner (1000 hands played, etc)
-
 Need to eliminate any players when they reach 0 chips. Also need to stop the game and prevent any more actions (bets, etc) when only one player remaing because they won

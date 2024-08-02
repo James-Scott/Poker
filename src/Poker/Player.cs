@@ -30,7 +30,7 @@
 
             if (this.Cards.Count < 5)
             {
-                throw new ArgumentException(nameof(this.Cards));
+                throw new InvalidOperationException("Need at least 5 cards to classify a hand fully");
             }
 
             this.HandRankResult = classifier.GetHandRankResult(this.HandCards, this.CommunityCards);
