@@ -101,8 +101,7 @@
             this.BigBlind = bigBlind;
         }
 
-        // Change back
-        public void PreHandSetup()
+        private void PreHandSetup()
         {
             this.CurrentState = GameState.PreHand;
 
