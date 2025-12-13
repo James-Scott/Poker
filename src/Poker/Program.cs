@@ -20,11 +20,11 @@
                     engine.Bet(player, 10);
                 }
 
-                engine.Run();
+                engine.RunHand();
 
                 PrettyPrintOutput(engine);
 
-                engine.Reset();
+                engine.ResetHand();
             }
         }
 
