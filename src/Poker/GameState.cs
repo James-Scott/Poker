@@ -3,10 +3,8 @@
     public enum GameState
     {
         Start,
-        LittleBlind,
-        BigBlind,
+        PreHand,
         Deal,
-        PreFlop,
         Flop,
         Turn,
         River,

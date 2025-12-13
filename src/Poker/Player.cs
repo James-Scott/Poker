@@ -10,6 +10,7 @@
             this.Chips = chips;
             this.HandCards = new List<Card>();
             this.CommunityCards = new List<Card>();
+            this.CurrentBlind = Blind.None;
         }
 
         public string Name { get; }
@@ -23,6 +24,8 @@
         public List<Card> Cards => this.HandCards.Concat(this.CommunityCards).ToList();
 
         public HandResult HandRankResult { get; private set; }
+
+        public Blind CurrentBlind { get; set; }
 
         public void CalculateHandRank()
         {
