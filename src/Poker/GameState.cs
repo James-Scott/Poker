@@ -4,7 +4,7 @@
     {
         Start,
         PreHand,
-        Deal,
+        Hole,
         Flop,
         Turn,
         River,

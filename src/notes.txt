@@ -1,1 +1,5 @@
-Need to eliminate any players when they reach 0 chips. Also need to stop the game and prevent any more actions (bets, etc) when only one player remaing because they won
+Card logic is mostly finished. Next steps would be to add rounds of betting in between hands.
+
+Idea is to possibly split Engine class and add new Game class which orchestrates the game itself. The Engine class would then be
+expose methods publically that the game could call (to deal the flop, etc). This would also help test the logic since currently
+the logic in Engine is black box and not exposed

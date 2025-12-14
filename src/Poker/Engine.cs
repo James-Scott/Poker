@@ -65,7 +65,7 @@
 
             this.PreHandSetup();
 
-            this.DealHands();
+            this.DealHole();
 
             this.DealFlop();
 
@@ -101,7 +101,7 @@
             this.BigBlind = bigBlind;
         }
 
-        private void PreHandSetup()
+        public void PreHandSetup()
         {
             this.CurrentState = GameState.PreHand;
 
@@ -131,9 +131,9 @@
             this.Bet(bigBlindPlayer, this.BigBlind);
         }
 
-        private void DealHands()
+        public void DealHole()
         {
-            this.CurrentState = GameState.Deal;
+            this.CurrentState = GameState.Hole;
 
             foreach (var player in this.Players)
             {
@@ -143,7 +143,7 @@
             }
         }
 
-        private void DealFlop()
+        public void DealFlop()
         {
             this.CurrentState = GameState.Flop;
 
@@ -155,7 +155,7 @@
             }
         }
 
-        private void DealTurn()
+        public void DealTurn()
         {
             this.CurrentState = GameState.Turn;
 
@@ -167,7 +167,7 @@
             }
         }
 
-        private void DealRiver()
+        public void DealRiver()
         {
             this.CurrentState = GameState.River;
 
@@ -179,7 +179,7 @@
             }
         }
 
-        private void CalculateWinner()
+        public void CalculateWinner()
         {
             foreach (var player in this.Players)
             {

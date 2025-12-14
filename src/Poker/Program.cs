@@ -11,6 +11,8 @@
                 engine.Players.Add(new Player($"Player Number: {i + 1}", 1000));
             }
 
+            engine.SetBlinds(5, 10);
+
             for (int i = 0; i < 100; i++)
             {
                 Console.WriteLine($"Hand Number: {i + 1}");
@@ -30,6 +32,10 @@
 
         private static void PrettyPrintOutput(Engine engine)
         {
+            Console.WriteLine("BLINDS:");
+            Console.WriteLine($"Little ({engine.LittleBlind}): {engine.BlindPlayers.First(x => x.CurrentBlind == Blind.Little).Name}");
+            Console.WriteLine($"Big ({engine.BigBlind}): {engine.BlindPlayers.First(x => x.CurrentBlind == Blind.Big).Name}");
+
             Console.WriteLine("FLOP:");
 
             foreach (var card in engine.Flop)
@@ -61,7 +67,7 @@
             {
                 Console.WriteLine(@$"Player: {winningPlayer.Name} 
                     won {engine.Pot / engine.WinningPlayers.Count} chips 
-                    with a {winningPlayer.HandRankResult.HandRank} of {winningPlayer.HandRankResult.WinningRank} 
+                    with a {winningPlayer.HandRankResult!.HandRank} of {winningPlayer.HandRankResult.WinningRank} 
                     and a kicker {winningPlayer.HandRankResult.KickerRank}
                 ");
 
